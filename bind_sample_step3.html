@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=125">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+        .clause-head {
+            padding: 10px 15px;
+            color: #7a7a7a;
+            font-size: 13px;
+        }
+        .clause-content {
+            position: relative;
+            padding: 10px 15px 40px 15px;
+            color: #101010;
+            font-size: 13px;
+            height: 130px;
+            overflow: hidden;
+        }
+        .clause-content.spread {
+            height: auto;
+            overflow: auto;
+        }
+        .clause-content .spread-icon {
+            position: absolute;
+            margin: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            line-height: 40px;
+            bottom: 0;
+            color: #3f51b5;
+            text-align: center;
+            font-size: 13px;
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="样本绑定" class="navbar-second">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+                <mu-icon-button slot="right" @click="open = true"><i class="material-icons">&#xE7FD;</i></mu-icon-button>
+            </mu-appbar>
+
+            <mu-drawer :open="open" :docked="docked" :right="true" width="160" @close="toggle()">
+                <div class="side-drawer">
+                    <div class="side-drawer-inner flex-vertical">
+                        <div class="side-drawer-head unit-0">
+                            您要去哪里？
+                        </div>
+                        <div class="side-drawer-content unit">
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>健康商城</mu-sub-header>
+                                <mu-list-item title="商城首页" @click="linkTo('index.html')">
+                                    <span slot="left" class="icon fa fa-home"></span>
+                                </mu-list-item>
+                                <mu-list-item title="购物车" @click="linkTo('shop_cart.html')">
+                                    <span slot="left" class="icon fa fa-shopping-cart"></span>
+                                </mu-list-item>
+                                <mu-list-item title="我的订单" @click="linkTo('order_list.html')">
+                                    <span slot="left" class="icon fa fa-th-list"></span>
+                                </mu-list-item>
+                                <mu-list-item title="贵宾卡" @click="linkTo('gift_card.html')">
+                                    <span slot="left" class="icon fa fa-credit-card"></span>
+                                </mu-list-item>
+                                <mu-list-item title="样本绑定" @click="linkTo('bind_sample_step1.html')">
+                                    <span slot="left" class="icon fa fa-plus-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                            <mu-divider></mu-divider>
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>会员中心</mu-sub-header>
+                                <mu-list-item title="个人中心" @click="linkTo('person.html')">
+                                    <span slot="left" class="icon fa fa-male"></span>
+                                </mu-list-item>
+                                <mu-list-item title="查看报告" @click="linkTo('report_list.html')">
+                                    <span slot="left" class="icon fa fa-book"></span>
+                                </mu-list-item>
+                                <mu-list-item title="1对1咨询" @click="linkTo('one_by_one_consult.html')">
+                                    <span slot="left" class="icon fa fa-phone-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                        </div>
+                    </div>
+                </div>
+                    
+            </mu-drawer>
+
+            <div style="padding-top:40px;">
+                <h2 class="block-title" style="text-align:left;padding-left:15px;">第3步：DNA采样</h2>
+                <!--用户条款-->
+                <div class="bg-white ui-border-tb" v-show="!accepteCheckbox.length">
+                    <div class="ui-border-b clause-head">
+                        在采样之前，请阅读并同意用户须知
+                    </div>
+                    <div :class="clauseClass">
+                        <p class="no-m" >
+                            如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。
+                        </p>
+                        <p class="spread-icon bg-white" @click="clauseSpread = !clauseSpread">
+                            查看全文
+                            <span v-if="clauseSpread" class="icon fa fa-chevron-circle-up" style="font-size:18px;"></span>
+                            <span v-if="!clauseSpread" class="icon fa fa-chevron-circle-down" style="font-size:18px;"></span>
+                        </p>
+                    </div>
+                    <div class="clause-foot p15">
+                        <mu-checkbox label="我已阅读并同意以上内容" v-model="accepteCheckbox" native-value="true"></mu-checkbox>
+                    </div>
+                </div> 
+                <!--采样说明-->
+                <div class="bg-white ui-border-tb" v-show="accepteCheckbox.length">
+                    <div class="ui-border-b clause-head">
+                        请仔细观看采样视频或图文说明并进行采样
+                    </div>
+                    <div style="padding: 15px 15px 1px 15px">
+                        <img class="cross-img mb-15" width="100%" src="https://placeholdit.imgix.net/~text?txtsize=15&txt=placehold&w=300&h=150&txtpad=1" alt="">
+                        <img class="cross-img mb-15" width="100%" src="https://placeholdit.imgix.net/~text?txtsize=15&txt=placehold&w=300&h=150&txtpad=1" alt="">
+                        <img class="cross-img mb-15" width="100%" src="https://placeholdit.imgix.net/~text?txtsize=15&txt=placehold&w=300&h=150&txtpad=1" alt="">
+                    </div>
+                </div> 
+                <div class="p-lr15" v-show="accepteCheckbox.length">
+                    <div style="padding:20px 0">
+                        <mu-raised-button label="我已采样完毕" @click="nextStep()" class="radius-button" primary full-width></mu-raised-button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false,
+                accepteCheckbox: [],
+                clauseSpread: false
+            },
+            mounted: function() {
+                
+            },
+            computed: {
+                clauseClass: function () {
+                    return this.clauseSpread ? 'ui-border-b clause-content spread' : 'ui-border-b clause-content'
+                }
+            },
+            methods: {
+                linkTo: function(url) {
+                    setTimeout(function() {
+                        location.href = url;
+                    }, 500);
+                },
+                goBack: function() {
+                    history.back();
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                },
+                nextStep: function() {
+                    location.href = "bind_sample_step4.html";
+                }
+            }
+        });
+    </script>
+</html>

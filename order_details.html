@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=131">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+        
+        .receive-address {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .receive-address .little-btn {
+            height: 25px;
+            line-height: 25px;
+            border-radius: 8px;
+            background-color: #8bc34a;
+            min-width: 40px;
+            font-size: 12px;
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="订单详情" class="navbar-second no-right">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+            </mu-appbar>
+            <footer class="second-footer order-details-footer ui-border-t text-right" style="padding-right:15px;">
+                <mu-raised-button label="取消订单" class="little-button"></mu-raised-button>
+                <mu-raised-button label="支付" class="little-button" primary></mu-raised-button>
+            </footer>
+
+            <div style="padding-top:40px;padding-bottom:50px;">
+                <div class="order-detail-info bg-white ui-border-tb">
+                    <div class="order-code">
+                        订单编号：170503233534523
+                        <span class="status-label">待支付</span>
+                    </div>
+                    <p>订单状态跟踪&nbsp;&nbsp;<span class="icon fa fa-chevron-circle-down" style="font-size:18px;"></span></p>
+                </div>
+
+                <h2 class="block-title">收货地址</h2>
+                <div class="receive-address bg-white ui-border-tb p-lr15">
+                    <div class="flex-middle">
+                        <div class="unit-0" style="width:45px;text-align:center;height:45px;line-height:45px;">
+                            <span class="icon fa fa-truck" style="font-size:24px;"></span>
+                        </div>
+                        <div class="unit">
+                            <p class="no-m">收件人：张老三   13812345678</p>
+                            <p class="no-m" style="color:#616161;font-size:12px;">浙江省  杭州市  滨江区</p>
+                            <p class="no-m" style="color:#616161;font-size:12px;">长河街道聚才路88号远方科技中心15层</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="block-title">订单商品</h2>
+                <div class="order-goods-list bg-white ui-border-tb p-lr15">
+                    <p class="order-goods-shop">
+                        <span class="fa fa-user-md" style="font-size:15px;"></span>
+                        <span>壹基因官方</span>
+                        <span class="fa fa-angle-right" style="font-size:20px;color:#444444;"></span>
+                    </p>
+                    <div class="default-goods-cell">
+                        <div class="unit goods-card flex-left">
+                            <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-title ui-ellipsis-2">老年常见健康风险基因检测16项【标准版】</p>
+                                <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                <div class="prices">
+                                    <span class="vip-price">￥1899</span>
+                                    <span class="price">￥1899</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="default-goods-cell">
+                        <div class="unit goods-card flex-left">
+                            <img class="unit-0 goods-img" src="./image/1494047032.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-title ui-ellipsis-2">宝贝密码T+儿童天赋基因检测套餐51项【精装报告版】</p>
+                                <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                <div class="prices">
+                                    <span class="vip-price">￥1899</span>
+                                    <span class="price">￥1899</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white right-control-list">
+                        <mu-list v-cloak>
+                            <mu-list-item title="店铺优惠" v-cloak>
+                                <span class="right-text" style="right:5px">往返包邮</span>
+                            </mu-list-item>
+                            <mu-divider></mu-divider>
+                            <mu-list-item title="配送方式" v-cloak>
+                                <span class="right-text" style="right:5px">顺丰</span>
+                            </mu-list-item>
+                            <mu-divider></mu-divider>
+                        </mu-list>
+                    </div>
+                    <div class="flex-left">
+                        <div class="unit-0" style="width:85px;text-align:left;padding-left:10px;">
+                            买家留言:
+                        </div>
+                        <div class="unit">
+                            <mu-text-field value="无" disabled underline-class="no-under-line" multi-line :rows="3" :rowsMax="6" class="inner-text-field"></mu-text-field>
+                        </div>
+                    </div>
+                    <mu-divider></mu-divider>
+                    <p class="goods-count">共&nbsp; 2 &nbsp;件商品&nbsp;&nbsp;小计：<span class="price">￥18969</span></p>
+                </div>
+
+                <h2 class="block-title">会员特权</h2>
+                <div class="order-vip-options bg-white ui-border-tb p-lr15">
+                    <div class="bg-white right-control-list">
+                        <mu-list v-cloak>
+                            <mu-list-item title="卡卷" v-cloak>
+                                <span class="right-text" style="right:5px">满500减800</span>
+                            </mu-list-item>
+                            <mu-divider></mu-divider>
+                            <mu-list-item title="积分兑换" v-cloak>
+                                <div class="custom-area" style="color: #a8a8a8;">
+                                    10000积分兑换100元
+                                </div>
+                            </mu-list-item>
+                            <mu-divider></mu-divider>
+                        </mu-list>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false
+            },
+            mounted: function() {
+                
+            },
+            methods: {
+                goBack: function() {
+                    history.back();
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                }
+            }
+        });
+    </script>
+</html>

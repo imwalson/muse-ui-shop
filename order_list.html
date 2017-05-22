@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=131">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+        
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="我的订单" class="navbar-second">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+                <mu-icon-button slot="right" @click="open = true"><i class="material-icons">&#xE7FD;</i></mu-icon-button>
+            </mu-appbar>
+
+            <mu-drawer :open="open" :docked="docked" :right="true" width="160" @close="toggle()">
+                <div class="side-drawer">
+                    <div class="side-drawer-inner flex-vertical">
+                        <div class="side-drawer-head unit-0">
+                            您要去哪里？
+                        </div>
+                        <div class="side-drawer-content unit">
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>健康商城</mu-sub-header>
+                                <mu-list-item title="商城首页" @click="linkTo('index.html')">
+                                    <span slot="left" class="icon fa fa-home"></span>
+                                </mu-list-item>
+                                <mu-list-item title="购物车" @click="linkTo('shop_cart.html')">
+                                    <span slot="left" class="icon fa fa-shopping-cart"></span>
+                                </mu-list-item>
+                                <mu-list-item title="我的订单" @click="linkTo('order_list.html')">
+                                    <span slot="left" class="icon fa fa-th-list"></span>
+                                </mu-list-item>
+                                <mu-list-item title="贵宾卡" @click="linkTo('gift_card.html')">
+                                    <span slot="left" class="icon fa fa-credit-card"></span>
+                                </mu-list-item>
+                                <mu-list-item title="样本绑定" @click="linkTo('bind_sample_step1.html')">
+                                    <span slot="left" class="icon fa fa-plus-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                            <mu-divider></mu-divider>
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>会员中心</mu-sub-header>
+                                <mu-list-item title="个人中心" @click="linkTo('person.html')">
+                                    <span slot="left" class="icon fa fa-male"></span>
+                                </mu-list-item>
+                                <mu-list-item title="查看报告" @click="linkTo('report_list.html')">
+                                    <span slot="left" class="icon fa fa-book"></span>
+                                </mu-list-item>
+                                <mu-list-item title="1对1咨询" @click="linkTo('one_by_one_consult.html')">
+                                    <span slot="left" class="icon fa fa-phone-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                        </div>
+                    </div>
+                </div>
+                    
+            </mu-drawer>
+
+            <div class="order-list-content" style="padding-top:40px;">
+                <div class="bg-white" style="padding:0 8px;">
+                    <mu-tabs :value="activeTab" @change="handleTabChange" line-class="order-list-tab-line" class="order-list-tab">
+                        <mu-tab value="all" title="全部"></mu-tab>
+                        <mu-tab value="cat1" title="基因检测"></mu-tab>
+                        <mu-tab value="cat2" title="健康服务"></mu-tab>
+                        <mu-tab value="cat3" title="周边产品"></mu-tab>
+                    </mu-tabs>
+                </div>
+                    
+
+                <div class="order-list-group ui-border-tb" v-show="activeTab === 'all' || activeTab === 'cat1'">
+                    <h2 class="order-cat bg-white ui-border-b">基因检测</h2>
+                    <div class="order-goods-list bg-white ui-border-tb p-lr15">
+                        <div class="goods-shop">
+                            <span class="fa fa-user-md" style="font-size:15px;"></span>
+                            <span>壹基因官方</span>
+                            <span class="fa fa-angle-right" style="font-size:20px;color:#444444;"></span>
+                            <div class="order-status">待支付</div>
+                        </div>
+                        <div class="default-goods-cell">
+                            <div class="unit goods-card flex-left">
+                                <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                                <div class="unit info">
+                                    <p class="goods-title ui-ellipsis-2">老年常见健康风险基因检测16项【标准版】</p>
+                                    <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                    <div class="prices">
+                                        <span class="vip-price">￥1899</span>
+                                        <span class="price">￥1899</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="default-goods-cell">
+                            <div class="unit goods-card flex-left">
+                                <img class="unit-0 goods-img" src="./image/1494047032.jpeg" alt="">
+                                <div class="unit info">
+                                    <p class="goods-title ui-ellipsis-2">宝贝密码T+儿童天赋基因检测套餐51项【精装报告版】</p>
+                                    <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                    <div class="prices">
+                                        <span class="vip-price">￥1899</span>
+                                        <span class="price">￥1899</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right order-group-amount">
+                            共 2 件商品&nbsp;&nbsp;小计：<span class="price">￥13886</span>
+                        </div>
+                        <mu-divider></mu-divider>
+                        <div class="order-group-actions text-right">
+                            <mu-raised-button label="订单详情" @click="orderDetails()" class="little-btn"></mu-raised-button>
+                            <mu-raised-button label="取消订单" class="little-btn"></mu-raised-button>
+                            <mu-raised-button label="支付" class="little-btn" primary></mu-raised-button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-list-group ui-border-tb" v-show="activeTab === 'all' || activeTab === 'cat2'">
+                    <h2 class="order-cat bg-white ui-border-b">健康服务</h2>
+                    <div class="order-goods-list bg-white ui-border-tb p-lr15">
+                        <div class="goods-shop">
+                            <span class="fa fa-user-md" style="font-size:15px;"></span>
+                            <span>壹基因官方</span>
+                            <span class="fa fa-angle-right" style="font-size:20px;color:#444444;"></span>
+                            <div class="order-status green">服务有效期</div>
+                        </div>
+                        <div class="default-goods-cell">
+                            <div class="unit goods-card flex-left">
+                                <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                                <div class="unit info">
+                                    <p class="goods-title ui-ellipsis-2">杭州VIP导医服务【年度版】</p>
+                                    <p class="goods-subject ui-ellipsi">受益人：赵老五[18612345678]</p>
+                                    <div class="prices">
+                                        <span class="vip-price">￥1899</span>
+                                        <span class="price">￥1899</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right order-group-amount">
+                            共 1 件商品&nbsp;&nbsp;小计：<span class="price">￥6886</span>
+                        </div>
+                        <mu-divider></mu-divider>
+                        <div class="order-group-actions text-right">
+                            <mu-raised-button label="订单详情" class="little-btn"></mu-raised-button>
+                            <mu-raised-button label="进入服务页面" class="little-btn" primary></mu-raised-button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-list-group ui-border-tb" v-show="activeTab === 'all' || activeTab === 'cat3'">
+                    <h2 class="order-cat bg-white ui-border-b">周边产品</h2>
+                    <div class="order-goods-list bg-white ui-border-tb p-lr15">
+                        <div class="goods-shop">
+                            <span class="fa fa-user-md" style="font-size:15px;"></span>
+                            <span>壹基因官方</span>
+                            <span class="fa fa-angle-right" style="font-size:20px;color:#444444;"></span>
+                            <div class="order-status">待支付</div>
+                        </div>
+                        <div class="default-goods-cell">
+                            <div class="unit goods-card flex-left">
+                                <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                                <div class="unit info">
+                                    <p class="goods-title ui-ellipsis-2">老年常见健康风险基因检测16项【标准版】</p>
+                                    <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                    <div class="prices">
+                                        <span class="vip-price">￥1899</span>
+                                        <span class="price">￥1899</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="default-goods-cell">
+                            <div class="unit goods-card flex-left">
+                                <img class="unit-0 goods-img" src="./image/1494047032.jpeg" alt="">
+                                <div class="unit info">
+                                    <p class="goods-title ui-ellipsis-2">宝贝密码T+儿童天赋基因检测套餐51项【精装报告版】</p>
+                                    <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                    <div class="prices">
+                                        <span class="vip-price">￥1899</span>
+                                        <span class="price">￥1899</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right order-group-amount">
+                            共 2 件商品&nbsp;&nbsp;小计：<span class="price">￥13886</span>
+                        </div>
+                        <mu-divider></mu-divider>
+                        <div class="order-group-actions text-right">
+                            <mu-raised-button label="订单详情" @click="orderDetails()" class="little-btn"></mu-raised-button>
+                            <mu-raised-button label="取消订单" class="little-btn"></mu-raised-button>
+                            <mu-raised-button label="支付" class="little-btn" primary></mu-raised-button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false,
+                activeTab: 'all'
+            },
+            mounted: function() {
+                
+            },
+            methods: {
+                linkTo: function(url) {
+                    setTimeout(function() {
+                        location.href = url;
+                    }, 500);
+                },
+                goBack: function() {
+                    history.back();
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                },
+                handleTabChange: function (val) {
+                    this.activeTab = val;
+                },
+                orderDetails: function() {
+                    location.href = "order_details.html";
+                }
+            }
+        });
+    </script>
+</html>

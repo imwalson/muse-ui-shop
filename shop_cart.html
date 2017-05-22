@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=131">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="购物车" class="navbar-second">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+                <mu-icon-button slot="right" @click="open = true"><i class="material-icons">&#xE7FD;</i></mu-icon-button>
+            </mu-appbar>
+            <footer class="second-footer ui-border-t clearfix" style="padding-right:15px;">
+                <div class="cart-foot-radio pull-left">
+                    <mu-checkbox label="全选" native-value="simple1" uncheck-icon="radio_button_unchecked" checked-icon="radio_button_checked"></mu-checkbox>
+                </div>
+                <div class="cart-foot-count pull-left">
+                    <span style="font-size:13px;color:#5c5c5e;">合计</span>
+                    <span style="font-size:15px;color:#e51c23;">￥13886</span>
+                </div>
+                <div class="cart-foot-submit pull-left">
+                    <mu-raised-button label="结算" @click="goOrder" class="submit-button" primary full-width></mu-raised-button>
+                </div>
+            </footer>
+
+            <!--侧边栏菜单-->
+            <mu-drawer :open="open" :docked="docked" :right="true" width="160" @close="toggle()">
+                <div class="side-drawer">
+                    <div class="side-drawer-inner flex-vertical">
+                        <div class="side-drawer-head unit-0">
+                            您要去哪里？
+                        </div>
+                        <div class="side-drawer-content unit">
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>健康商城</mu-sub-header>
+                                <mu-list-item title="商城首页" @click="linkTo('index.html')">
+                                    <span slot="left" class="icon fa fa-home"></span>
+                                </mu-list-item>
+                                <mu-list-item title="购物车" @click="linkTo('shop_cart.html')">
+                                    <span slot="left" class="icon fa fa-shopping-cart"></span>
+                                </mu-list-item>
+                                <mu-list-item title="我的订单" @click="linkTo('order_list.html')">
+                                    <span slot="left" class="icon fa fa-th-list"></span>
+                                </mu-list-item>
+                                <mu-list-item title="贵宾卡" @click="linkTo('gift_card.html')">
+                                    <span slot="left" class="icon fa fa-credit-card"></span>
+                                </mu-list-item>
+                                <mu-list-item title="样本绑定" @click="linkTo('bind_sample_step1.html')">
+                                    <span slot="left" class="icon fa fa-plus-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                            <mu-divider></mu-divider>
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>会员中心</mu-sub-header>
+                                <mu-list-item title="个人中心" @click="linkTo('person.html')">
+                                    <span slot="left" class="icon fa fa-male"></span>
+                                </mu-list-item>
+                                <mu-list-item title="查看报告" @click="linkTo('report_list.html')">
+                                    <span slot="left" class="icon fa fa-book"></span>
+                                </mu-list-item>
+                                <mu-list-item title="1对1咨询" @click="linkTo('one_by_one_consult.html')">
+                                    <span slot="left" class="icon fa fa-phone-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                        </div>
+                    </div>
+                </div>
+                    
+            </mu-drawer>
+            <!--规格参数选择-->
+            <mu-bottom-sheet sheet-class="standard-select-sheet" :open="bottomSheet" @close="closeBottomSheet">
+                <mu-list @item-click="closeBottomSheet">
+                    <mu-sub-header>请选择您要的规格</mu-sub-header>
+                    <mu-list-item title="标准版【￥1699】"></mu-list-item>
+                    <mu-list-item title="尊享版【￥1899】"></mu-list-item>
+                    <mu-list-item title="精装纸质报告版【￥2399】"></mu-list-item>
+                </mu-list>
+            </mu-bottom-sheet>
+
+            <!--受检者填写-->
+            <mu-bottom-sheet :open="bottomSheet2" @close="closeBottomSheet2">
+                <mu-sub-header>请选择被检测者</mu-sub-header>
+                <div class="add-subject-sheet" style="padding:0 15px 15px 15px;">
+                    <p>已有受检者请点击选择</p>
+                    <div class="subject-list">
+                        <mu-flat-button label="小名" class="subject-item"></mu-flat-button>
+                        <mu-flat-button label="小王" class="subject-item"></mu-flat-button>
+                        <mu-flat-button label="小花" class="subject-item active"></mu-flat-button>
+                    </div>
+                    <p>新增受检者</p>
+                    <div class="flex-left units-gap">
+                        <div class="unit-1-3">
+                            <mu-text-field hint-text="姓名" hint-text-class="add-subject-hint" error-text="这是必填项"></mu-text-field>
+                        </div>
+                        <div class="unit-2-3">
+                            <mu-text-field hint-text="手机号" hint-text-class="add-subject-hint"></mu-text-field>
+                        </div>
+                    </div>
+                    <div class="flex-left units-gap">
+                        <div class="unit-1-4">
+                            <mu-select-field :label-focus-class="['label-foucs']" label="性别">
+                                <mu-menu-item value="男" title="男"></mu-menu-item>
+                                <mu-menu-item value="女" title="女"></mu-menu-item>
+                            </mu-select-field>
+                        </div>
+                        <div class="unit-1-4">
+                            <mu-select-field :label-focus-class="['label-foucs']" label="关系">
+                                <mu-menu-item value="父子" title="父子"></mu-menu-item>
+                                <mu-menu-item value="兄弟" title="兄弟"></mu-menu-item>
+                            </mu-select-field>
+                        </div>
+                        <div class="unit-1-2">
+                            <mu-date-picker hint-text="出生日期" hint-text-class="add-subject-hint"></mu-date-picker>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <mu-raised-button label="保存并选中" @click="closeBottomSheet2" class="add-subject-btn"></mu-raised-button>
+                    </div>
+                </div>
+            </mu-bottom-sheet>
+
+            <div style="padding-top:40px;padding-bottom:48px;">
+                <div class="cart-group-head p-r15 flex-left">
+                    <div class="unit-0 cart-radio-area">
+                        <mu-checkbox label="" native-value="simple1" uncheck-icon="radio_button_unchecked" checked-icon="radio_button_checked"></mu-checkbox>
+                    </div>
+                    <div class="unit cat-name">
+                        <span class="icon fa fa-shopping-cart"></span>基因检测商品
+                    </div>
+                    <div class="unit-0 edit">
+                        编辑
+                    </div>
+                </div>
+                <div class="cart-goods-list bg-white ui-border-tb p-r15">
+                    <div class="cart-goods-cell flex-middle">
+                        <div class="unit-0 cart-radio-area">
+                            <mu-checkbox label="" native-value="simple1" uncheck-icon="radio_button_unchecked" checked-icon="radio_button_checked"></mu-checkbox>
+                        </div>
+                        <div class="unit goods-card flex-left">
+                            <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-title ui-ellipsis-2">老年常见健康风险基因检测16项【标准版】</p>
+                                <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                <div class="prices">
+                                    <span class="vip-price">￥1899</span>
+                                    <span class="price">￥1899</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-goods-cell flex-middle">
+                        <div class="unit-0 cart-radio-area">
+                            <mu-checkbox label="" native-value="simple1" uncheck-icon="radio_button_unchecked" checked-icon="radio_button_checked"></mu-checkbox>
+                        </div>
+                        <div class="unit goods-card flex-left">
+                            <img class="unit-0 goods-img" src="./image/1494047032.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-title ui-ellipsis-2">宝贝密码T+儿童天赋基因检测套餐51项【精装报告版】</p>
+                                <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                <div class="prices">
+                                    <span class="vip-price">￥1899</span>
+                                    <span class="price">￥1899</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-group-head p-r15 flex-left">
+                    <div class="unit-0 cart-radio-area">
+                        <mu-checkbox label="" native-value="simple1" uncheck-icon="radio_button_unchecked" checked-icon="radio_button_checked"></mu-checkbox>
+                    </div>
+                    <div class="unit cat-name">
+                        <span class="icon fa fa-shopping-cart"></span>基因健康服务
+                    </div>
+                    <div class="unit-0 edit">
+                        完成
+                    </div>
+                </div>
+                <div class="cart-goods-list bg-white ui-border-tb p-r15">
+                    <div class="cart-goods-cell flex-middle">
+                        <div class="unit-0 cart-radio-area">
+                            <mu-checkbox label="" native-value="simple1" uncheck-icon="radio_button_unchecked" checked-icon="radio_button_checked"></mu-checkbox>
+                        </div>
+                        <div class="unit goods-card flex-left">
+                            <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-title ui-ellipsis-2">杭州VIP导医服务【年度版】</p>
+                                <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                <div class="edits">
+                                    <span @click="openBottomSheet"><i class="fa fa-pencil"></i>规格</span>
+                                    <span @click="openBottomSheet2"><i class="fa fa-pencil"></i>受检者</span>
+                                    <span class="warning"><i class="fa fa-times"></i>移除</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false,
+                bottomSheet: false,
+                bottomSheet2: false
+            },
+            mounted: function() {
+                
+            },
+            methods: {
+                linkTo: function(url) {
+                    setTimeout(function() {
+                        location.href = url;
+                    }, 500);
+                },
+                goBack: function() {
+                    history.back();
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                },
+                standardClicked: function () {
+                    this.bottomSheet = false;
+                    this.bottomSheet2 = true;
+                },
+                closeBottomSheet: function () {
+                    this.bottomSheet = false;
+                },
+                openBottomSheet: function () {
+                    this.bottomSheet = true;
+                },
+                closeBottomSheet2: function () {
+                    this.bottomSheet2 = false;
+                },
+                openBottomSheet2: function () {
+                    this.bottomSheet2 = true;
+                },
+                goOrder: function () {
+                    location.href = 'order_confirm.html';
+                }
+            }
+        });
+    </script>
+</html>

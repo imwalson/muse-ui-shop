@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=177">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+        .cart-goods-cell .goods-card.active {
+            border-color: #259b24;
+        }
+        .date-select .mu-raised-button-label {
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .type-select {
+            margin-bottom: 0;
+            min-height: 38px;
+        }
+        .type-select .mu-text-field-content {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .p-b8 {
+            padding-bottom: 8px;
+        }
+        .row .col-33 {
+            width: 33.333333333333336%;
+            width: calc((100% - 10px*2) / 3);
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="预约解读" class="navbar-second">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+                <mu-icon-button slot="right" @click="open = true"><i class="material-icons">&#xE7FD;</i></mu-icon-button>
+            </mu-appbar>
+
+            <mu-drawer :open="open" :docked="docked" :right="true" width="160" @close="toggle()">
+                <div class="side-drawer">
+                    <div class="side-drawer-inner flex-vertical">
+                        <div class="side-drawer-head unit-0">
+                            您要去哪里？
+                        </div>
+                        <div class="side-drawer-content unit">
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>健康商城</mu-sub-header>
+                                <mu-list-item title="商城首页" @click="linkTo('index.html')">
+                                    <span slot="left" class="icon fa fa-home"></span>
+                                </mu-list-item>
+                                <mu-list-item title="购物车" @click="linkTo('shop_cart.html')">
+                                    <span slot="left" class="icon fa fa-shopping-cart"></span>
+                                </mu-list-item>
+                                <mu-list-item title="我的订单" @click="linkTo('order_list.html')">
+                                    <span slot="left" class="icon fa fa-th-list"></span>
+                                </mu-list-item>
+                                <mu-list-item title="贵宾卡" @click="linkTo('gift_card.html')">
+                                    <span slot="left" class="icon fa fa-credit-card"></span>
+                                </mu-list-item>
+                                <mu-list-item title="样本绑定" @click="linkTo('bind_sample_step1.html')">
+                                    <span slot="left" class="icon fa fa-plus-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                            <mu-divider></mu-divider>
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>会员中心</mu-sub-header>
+                                <mu-list-item title="个人中心" @click="linkTo('person.html')">
+                                    <span slot="left" class="icon fa fa-male"></span>
+                                </mu-list-item>
+                                <mu-list-item title="查看报告" @click="linkTo('report_list.html')">
+                                    <span slot="left" class="icon fa fa-book"></span>
+                                </mu-list-item>
+                                <mu-list-item title="1对1咨询" @click="linkTo('one_by_one_consult.html')">
+                                    <span slot="left" class="icon fa fa-phone-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                        </div>
+                    </div>
+                </div>
+                    
+            </mu-drawer>
+
+            <div style="padding-top:40px;">
+                <h2 class="block-title" style="text-align:left;padding-left:15px;">请选择您要预约解读的报告（任选一）</h2>
+                <ul class="cart-goods-list bg-white ui-border-tb p-r15">
+                    <li class="cart-goods-cell flex-middle">
+                        <div class="unit-0 cart-radio-area">
+                            <mu-radio label="" name="group" v-model="radioValue" native-value="simple1"></mu-radio>
+                        </div>
+                        <div :class="goodsCardClass('simple1')" @click="changeRadioValue('simple1')">
+                            <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-subject ui-ellipsi" style="height:30px;line-height:30px;font-size:13px;color:#444;">张老三（男，56岁）</p>
+                                <p class="goods-title ui-ellipsis-2">老年常见健康风险基因检测16项【标准版】</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="cart-goods-cell flex-middle">
+                        <div class="unit-0 cart-radio-area">
+                            <mu-radio label="" name="group" v-model="radioValue" native-value="simple2"></mu-radio>
+                        </div>
+                        <div :class="goodsCardClass('simple2')" @click="changeRadioValue('simple2')">
+                            <img class="unit-0 goods-img" src="./image/1494047032.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-subject ui-ellipsi" style="height:30px;line-height:30px;font-size:13px;color:#444;">张老三（男，56岁）</p>
+                                <p class="goods-title ui-ellipsis-2">宝贝密码T+儿童天赋基因检测套餐51项【精装报告版】</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <h2 class="block-title" style="text-align:left;padding-left:15px;">您正在为以下报告进行预约解读</h2>
+                <div class="p15 bg-white">
+                    <div class="default-goods-cell" style="margin-bottom:0;">
+                        <div class="unit goods-card flex-left">
+                            <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-subject ui-ellipsi" style="height:30px;line-height:30px;font-size:13px;color:#444;">张老三（男，56岁）</p>
+                                <p class="goods-title ui-ellipsis-2">老年常见健康风险基因检测16项【标准版】</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="block-title" style="text-align:left;padding-left:15px;">您遇到了什么问题？</h2>
+                <div class="p-lr15">
+                    <mu-select-field full-width label="" class="type-select">
+                        <mu-menu-item value="1" title="我想解锁更多检测项目"></mu-menu-item>
+                        <mu-menu-item value="2" title="我不理解报告的含义"></mu-menu-item>
+                        <mu-menu-item value="3" title="我想了解更多的健康资讯"></mu-menu-item>
+                    </mu-select-field>
+                </div>
+                <h2 class="block-title" style="text-align:left;padding-left:15px;">选择您要预约的日期</h2>
+                <div class="p-lr15">
+                    <mu-row gutter>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="周一 05-08" class="radius-button little-button date-select" primary full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="周二  05-09" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="周三  05-10" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="周四  05-11" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="周五  05-12" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="其他时间" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                    </mu-row>
+                </div>    
+                <h2 class="block-title" style="text-align:left;padding-left:15px;">选择您要预约的时间段</h2>
+                <div class="p-lr15">
+                    <mu-row gutter>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="9:00～11:00" class="radius-button little-button date-select" primary full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="11:00～13:00" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="13:00～15:00" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="15:00～17:00" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="17:00～19:00" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                        <mu-col width="33" class="p-b8">
+                            <mu-raised-button label="19:00～21:00" class="radius-button little-button date-select" full-width></mu-raised-button>
+                        </mu-col>
+                    </mu-row>
+                </div>   
+
+                <h2 class="block-title" style="text-align:left;padding-left:15px;">您还有什么其他要说明的</h2>
+                <div class="p-lr15">
+                    <mu-text-field value="无" multi-line :rows="3" :rows-max="5" full-width></mu-text-field>
+                </div>
+
+                <div class="p-lr15">
+                    <div style="padding:20px 0">
+                        <mu-raised-button label="提交预约" class="radius-button" primary full-width></mu-raised-button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false,
+                radioValue: 'simple1'
+            },
+            mounted: function() {
+                
+            },
+            methods: {
+                linkTo: function(url) {
+                    setTimeout(function() {
+                        location.href = url;
+                    }, 500);
+                },
+                goBack: function() {
+                    history.back();
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                },
+                changeRadioValue: function(val) {
+                    this.radioValue = val;
+                },
+                goodsCardClass: function(val) {
+                    var str = "unit goods-card flex-left";
+                    if(val == this.radioValue){
+                        str = "unit goods-card flex-left active";
+                    }
+                    return str;
+                }
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>muse-ui Demo</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.min.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+
+    </head>
+    <style>
+        .interval {
+            height: 20px;
+        }
+        body {
+            background-color: #F0F0F0;
+        }
+        .search-query {
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            background: url(./image/search.png) center right no-repeat #fff;
+            width: 100%;
+            padding: 3px 22px 3px 15px;
+            -webkit-border-radius:14px;
+            -moz-border-radius:14px;
+            border-radius:14px;
+            outline:0;
+            color: #666;
+            border: 1px solid #e5e5e5;
+            transition: all .5s;
+        }
+        .search-query.focused,.search-query:focus{
+            color:#333;
+            text-shadow:0 1px 0 #fff;
+            background-color:#fff;
+            /*border:0;*/
+            -webkit-box-shadow:0 0 3px rgba(0,0,0,.15);
+            -moz-box-shadow:0 0 3px rgba(0,0,0,.15);
+            box-shadow:0 0 3px rgba(0,0,0,.15)
+        }
+        .btn-group, .btn-group-vertical {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .btn-group>.btn:first-child:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .btn-group>.btn:last-child:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .btn-group .btn+.btn {
+            margin-left: -1px;
+        }
+        .btn-group>.btn {
+            position: relative;
+            float: left;
+        }
+        .btn {
+            -webkit-appearance: button;
+            outline:0;
+            cursor: pointer;
+            text-transform: none;
+            font: inherit;
+            display: inline-block;
+            padding: 3px 8px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 6px;
+        }
+        .btn.active {
+            color: #4095f7;
+        }
+        .btn-default {
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+        }
+
+        .side-drawer {
+            width:160px;
+            background-color:#fff;
+        }
+        .side-drawer-head {
+            height: 40px;
+            line-height: 40px;
+            background-color: #2488ed;
+            color: #fff;
+            padding-left: 26px;
+        }
+        .side-drawer .mu-list {
+            padding-left: 10px;
+        }
+        .side-drawer .mu-item {
+            min-height: 36px;
+            padding: 10px 16px;
+        }
+        .side-drawer .mu-item.show-left {
+            padding-left: 50px;
+        }
+        .side-drawer .icon {
+            margin-top: 2px;
+        }
+        .side-drawer .mu-item-title {
+            font-size: 13px;
+        }
+
+        .shop-list-grid .shop-list-item {
+            margin-top: 14px;
+            background-color: #fff;
+        }
+        .shop-list-grid .unit:first-child {
+            padding-right: 7px;
+        }
+        .shop-list-grid .unit:last-child {
+            padding-left: 7px;
+        }
+        .shop-list-grid .shop-list-item .top-wrap {
+            position: relative;
+            width: 100%;
+        }
+        .shop-list-grid .shop-list-item .top-wrap img {
+            display: block;
+            width: 100%;
+        }
+        .shop-list-grid .shop-list-item .top-wrap .title {
+            margin: 0;
+            padding: 0 5px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 32px;
+            line-height: 16px;
+            background-color: #fff;
+            color: #121212;
+            opacity: 0.7;
+            font-size: 11px;
+            overflow: hidden;
+        }
+        .shop-list-grid .shop-list-item .bottom-wrap {
+            position: relative;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 5px;
+        }
+        .shop-list-item .price {
+            height: 30px;
+            line-height: 30px;
+            color: #e51c23;
+            font-size: 13px;
+        }
+        .shop-list-grid .shop-list-item .bottom-wrap .tags {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            left: 0;
+            background-color: transparent;
+            height: 30px;
+            line-height: 30px;
+            text-align: right;
+        }
+        .shop-list-item .tag {
+            display: inline-block;
+            padding: 0 8px;
+            margin-left: 4px;
+            height: 13px;
+            line-height: 13px;
+            font-size: 10px;
+            color: #fff;
+            border-radius: 4px;
+            background-color: #8bc34a;
+        }
+        .shop-list-item .tag.yellow {
+            background-color: #ff9800;
+        }
+
+        .shop-list .shop-list-item {
+            margin-top: 15px;
+            padding: 6px 11px;
+            height: 94px;
+            background-color: #fff;
+        }
+        .shop-list .shop-list-item .left-wrap {
+            width: 97px;
+            height: 82px;
+        }
+        .shop-list .shop-list-item .left-wrap img {
+            display: block;
+            height:82px;
+        }
+        .shop-list .shop-list-item .right-wrap {
+            padding-left: 15px;
+            height: 82px;
+        }
+        .shop-list .shop-list-item .right-wrap .row-1 {
+            margin: 0;
+            padding: 0;
+            height: 20px;
+            line-height: 20px;
+            font-size: 14px;
+            font-weight: normal;
+            color: #3F51B5;
+        }
+        .shop-list .shop-list-item .right-wrap .row-2 {
+            margin: 0;
+            padding: 0;
+            height: 42px;
+            line-height: 21px;
+            overflow: hidden;
+            font-size: 13px;
+            color: #858585;
+        }
+        .shop-list .shop-list-item .right-wrap .row-3 {
+            height: 20px;
+            line-height: 20px;
+        }
+        .shop-list .shop-list-item .right-wrap .row-3 .price {
+            display: inline-block;
+            height: 20px;
+            line-height: 20px;
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <div style="padding:15px;">
+                <input type="text" id="q" name="q" class="search-query" value="">
+            </div>
+            <div style="padding:15px;" >
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default active">
+                        <span class="fa fa-th-large"></span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="fa fa-th-list"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex-left" style="padding:15px;">
+                <div class="unit">
+                    <input type="text" id="q" name="q" class="search-query" placeholder="商品搜索">
+                </div>
+                <div class="unit-0" style="width:75px;text-align:right;">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default active">
+                            <span class="icon fa fa-th-large"></span>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <span class="icon fa fa-th-list"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding:15px;">
+                <div class="side-drawer">
+                    <div class="side-drawer-head">
+                        您要去哪里？
+                    </div>
+                    <mu-list>
+                        <mu-sub-header>健康商城</mu-sub-header>
+                        <mu-list-item title="商城首页">
+                            <span slot="left" class="icon fa fa-home"></span>
+                        </mu-list-item>
+                        <mu-list-item title="购物车">
+                            <span slot="left" class="icon fa fa-shopping-cart"></span>
+                        </mu-list-item>
+                        <mu-list-item title="我的订单">
+                            <span slot="left" class="icon fa fa-th-list"></span>
+                        </mu-list-item>
+                        <mu-list-item title="贵宾卡">
+                            <span slot="left" class="icon fa fa-credit-card"></span>
+                        </mu-list-item>
+                        <mu-list-item title="样本绑定">
+                            <span slot="left" class="icon fa fa-plus-square"></span>
+                        </mu-list-item>
+                    </mu-list>
+                    <mu-divider></mu-divider>
+                    <mu-list>
+                        <mu-sub-header>会员中心</mu-sub-header>
+                        <mu-list-item title="个人中心">
+                            <span slot="left" class="icon fa fa-male"></span>
+                        </mu-list-item>
+                        <mu-list-item title="查看报告">
+                            <span slot="left" class="icon fa fa-book"></span>
+                        </mu-list-item>
+                        <mu-list-item title="1对1咨询">
+                            <span slot="left" class="icon fa fa-phone-square"></span>
+                        </mu-list-item>
+                    </mu-list>
+                </div>
+            </div>
+            <!--商品列表（网格视图）-->
+            <div style="padding:15px;">
+                <div class="flex-left shop-list-grid">
+                    <div class="unit">
+                        <mu-paper class="shop-list-item" :z-depth="1">
+                            <div class="top-wrap">
+                                <img src="./image/1494047032.jpeg" alt="">
+                                <h2 class="title">基因检测超值体验 — 女性三项常见肿瘤基因检测</h2>
+                            </div>
+                            <div class="bottom-wrap">
+                                <span class="price">￥13886</span>
+                                <div class="tags">
+                                    <span class="tag">包邮</span>
+                                </div>
+                            </div>
+                        </mu-paper>
+                    </div>
+                    <div class="unit">
+                        <mu-paper class="shop-list-item" :z-depth="1">
+                            <div class="top-wrap">
+                                <img src="./image/1494047031.jpeg" alt="">
+                                <h2 class="title">男性三项常见肿瘤基因检测</h2>
+                            </div>
+                            <div class="bottom-wrap">
+                                <span class="price">￥13886</span>
+                                <div class="tags">
+                                    <span class="tag yellow">抵扣5%</span>
+                                </div>
+                            </div>
+                        </mu-paper>
+                    </div>
+                </div>
+                <div class="flex-left shop-list-grid">
+                    <div class="unit">
+                        <mu-paper class="shop-list-item" :z-depth="1">
+                            <div class="top-wrap">
+                                <img src="./image/1494047032.jpeg" alt="">
+                                <h2 class="title">基因检测超值体验 — 女性三项常见肿瘤基因检测</h2>
+                            </div>
+                            <div class="bottom-wrap">
+                                <span class="price">￥13886</span>
+                                <div class="tags">
+                                    <span class="tag">包邮</span>
+                                </div>
+                            </div>
+                        </mu-paper>
+                    </div>
+                    <div class="unit">
+                        <mu-paper class="shop-list-item" :z-depth="1">
+                            <div class="top-wrap">
+                                <img src="./image/1494047031.jpeg" alt="">
+                                <h2 class="title">男性三项常见肿瘤基因检测</h2>
+                            </div>
+                            <div class="bottom-wrap">
+                                <span class="price">￥13886</span>
+                                <div class="tags">
+                                    <span class="tag yellow">抵扣5%</span>
+                                </div>
+                            </div>
+                        </mu-paper>
+                    </div>
+                </div>
+            </div>
+
+            <!--商品列表（列表视图）-->
+            <div style="padding:15px;">
+                <div class="shop-list">
+                    <mu-paper class="shop-list-item" :z-depth="1">
+                        <div class="flex-left">
+                            <div class="unit-0 left-wrap">
+                                <img src="./image/1494047032.jpeg" alt="">
+                            </div>
+                            <div class="unit right-wrap">
+                                <h1 class="row-1"><i class="fa fa-user-md"></i>壹基因官方</h1>
+                                <p class="row-2">基因检测超值体验 — 女性三项常见肿瘤基因检测</p>
+                                <div class="row-3">
+                                    <span class="price">￥13886</span>
+                                    <span class="tag">包邮</span>
+                                    <span class="tag yellow">抵扣5%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </mu-paper> 
+                    <mu-paper class="shop-list-item" :z-depth="1">
+                        <div class="flex-left">
+                            <div class="unit-0 left-wrap">
+                                <img src="./image/1494047031.jpeg" alt="">
+                            </div>
+                            <div class="unit right-wrap">
+                                <h1 class="row-1"><i class="fa fa-user-md"></i>壹基因官方</h1>
+                                <p class="row-2">男性三项常见肿瘤基因检测</p>
+                                <div class="row-3">
+                                    <span class="price">￥13886</span>
+                                    <span class="tag">包邮</span>
+                                    <span class="tag yellow">抵扣5%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </mu-paper>    
+                </div>
+            </div>  
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+        //Vue.use(MuseUI);
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+            },
+            mounted: function() {
+            },
+            methods: {
+            }
+        });
+    </script>
+</html>

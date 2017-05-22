@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=131">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+        
+        .receive-address {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .receive-address .little-btn {
+            height: 25px;
+            line-height: 25px;
+            border-radius: 8px;
+            background-color: #8bc34a;
+            min-width: 40px;
+            font-size: 12px;
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="确认订单" class="navbar-second no-right">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+            </mu-appbar>
+            <footer class="second-footer ui-border-t clearfix" style="padding-right:15px;">
+                <div class="order-foot-submit pull-right">
+                    <mu-raised-button label="提交订单" class="submit-button" @click="orderSubmit()" primary full-width></mu-raised-button>
+                </div>
+                <div class="order-foot-count pull-right">
+                    <span style="font-size:13px;color:#5c5c5e;">合计</span>
+                    <span style="font-size:15px;color:#e51c23;">￥13886</span>
+                </div>
+            </footer>
+
+            <mu-drawer :open="open" :docked="docked" :right="true" width="230" @close="toggle()">
+                <div class="address-drawer">
+                    <div class="address-drawer-inner flex-vertical">
+                        <div class="address-drawer-head unit-0">
+                            <!--选择地址模式-->
+                            <div class="clearfix" v-show="addressMode == 'select' ">
+                                <div class="pull-left" style="width:45%;text-align:left;">
+                                    <mu-raised-button label="新增地址" @click="addressMode = 'add'" class="little-btn" primary></mu-raised-button>
+                                </div>
+                                <div class="pull-right" style="width:45%;text-align:right;">
+                                    <mu-flat-button label="管理" @click="addressMode = 'manager'" class="little-btn-flat" primary></mu-flat-button>
+                                </div>
+                            </div>
+                            <!--管理地址模式-->
+                            <div class="clearfix" v-show="addressMode == 'manager' ">
+                                <div class="pull-left" style="width:45%;text-align:left;">
+                                    <p class="no-m" style="color:#000;">管理收货地址</p>
+                                </div>
+                                <div class="pull-right" style="width:45%;text-align:right;">
+                                    <mu-flat-button label="完成" @click="addressMode = 'select'" class="little-btn-flat" primary></mu-flat-button>
+                                </div>
+                            </div>
+                            <!--新增地址模式-->
+                            <div class="clearfix" v-show="addressMode == 'add' ">
+                                <div class="pull-left" style="width:45%;text-align:left;">
+                                    <p class="no-m" style="color:#000;" @click="addressMode = 'select'"><span class="icon fa fa-chevron-left"></span>&nbsp;&nbsp;新增地址</p>
+                                </div>
+                                <div class="pull-right" style="width:45%;text-align:right;">
+                                    <mu-flat-button label="提交" @click="addressMode = 'select'" class="little-btn-flat" primary></mu-flat-button>
+                                </div>
+                            </div>
+                            <!--编辑地址模式-->
+                            <div class="clearfix" v-show="addressMode == 'edit' ">
+                                <div class="pull-left" style="width:45%;text-align:left;">
+                                    <p class="no-m" style="color:#000;">修改地址</p>
+                                </div>
+                                <div class="pull-right" style="width:45%;text-align:right;">
+                                    <mu-flat-button label="保存" @click="addressMode = 'manager'" class="little-btn-flat" primary></mu-flat-button>
+                                </div>
+                            </div>
+                            <!--地区选择模式-->
+                            <div class="clearfix" v-show="addressMode == 'dateSelect' ">
+                                <div class="pull-left" style="width:45%;text-align:left;">
+                                    <p class="no-m" style="color:#000;">地区选择</p>
+                                </div>
+                                <div class="pull-right" style="width:45%;text-align:right;">
+                                    <mu-flat-button label="保存" @click="addressMode = 'add'" class="little-btn-flat" primary></mu-flat-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="address-drawer-content unit">
+                            <!--选择地址 或者 管理地址-->
+                            <div class="drawer-address-list" v-show="addressMode == 'select' || addressMode == 'manager' ">
+                                <div class="bg-white drawer-address-cell ui-border-tb">
+                                    <div class="address-head clearfix">
+                                        <div class="pull-left" style="width:45%;text-align:left;line-height: 26px;">
+                                            <!--选择地址模式-->
+                                            <mu-radio label="张老三" name="address" v-show="addressMode == 'select' " native-value="simple1" ></mu-radio>
+                                            <!--管理地址模式-->
+                                            <span v-show="addressMode == 'manager' ">张老三</span>
+                                        </div>
+                                        <div class="pull-right" style="width:45%;text-align:right;line-height: 26px;font-size: 13px;">
+                                            13812345678
+                                        </div>
+                                    </div>
+                                    <p class="address-details">浙江省&nbsp;&nbsp;杭州市&nbsp;&nbsp;滨江区&nbsp;&nbsp;长河街道聚才路88号远方科技中心15层</p>
+                                    <div style="height:10px"></div>
+                                    <!--管理地址模式-->
+                                    <div v-show="addressMode == 'manager' ">
+                                        <mu-divider></mu-divider>
+                                        <div class="flex-left address-edit-bar">
+                                            <div class="unit-1-2">
+                                                <mu-radio label="默认地址" name="default-address" native-value="1" class="default-address-radio"></mu-radio>
+                                            </div>
+                                            <div class="unit-1-4" @click="addressMode = 'edit'">
+                                                <span class="icon fa fa-pencil-square-o" style="font-size:14px;"></span>
+                                                编辑
+                                            </div>
+                                            <div class="unit-1-4">
+                                                <span class="icon fa fa-trash" style="font-size:14px;"></span>
+                                                删除
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white drawer-address-cell ui-border-tb">
+                                    <div class="address-head clearfix">
+                                        <div class="pull-left" style="width:45%;text-align:left;line-height: 26px;">
+                                            <!--选择地址模式-->
+                                            <mu-radio label="张老三" name="address" v-show="addressMode == 'select' " native-value="simple1" ></mu-radio>
+                                            <!--管理地址模式-->
+                                            <span v-show="addressMode == 'manager' ">张老三</span>
+                                        </div>
+                                        <div class="pull-right" style="width:45%;text-align:right;line-height: 26px;font-size: 13px;">
+                                            13812345678
+                                        </div>
+                                    </div>
+                                    <p class="address-details">浙江省&nbsp;&nbsp;杭州市&nbsp;&nbsp;滨江区&nbsp;&nbsp;长河街道聚才路88号远方科技中心15层</p>
+                                    <div style="height:10px"></div>
+                                    <!--管理地址模式-->
+                                    <div v-show="addressMode == 'manager' ">
+                                        <mu-divider></mu-divider>
+                                        <div class="flex-left address-edit-bar">
+                                            <div class="unit-1-2">
+                                                <mu-radio label="默认地址" name="default-address" native-value="1" class="default-address-radio"></mu-radio>
+                                            </div>
+                                            <div class="unit-1-4" @click="addressMode = 'edit'">
+                                                <span class="icon fa fa-pencil-square-o" style="font-size:14px;"></span>
+                                                编辑
+                                            </div>
+                                            <div class="unit-1-4">
+                                                <span class="icon fa fa-trash" style="font-size:14px;"></span>
+                                                删除
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white drawer-address-cell ui-border-tb">
+                                    <div class="address-head clearfix">
+                                        <div class="pull-left" style="width:45%;text-align:left;line-height: 26px;">
+                                            <!--选择地址模式-->
+                                            <mu-radio label="张老三" name="address" v-show="addressMode == 'select' " native-value="simple1" ></mu-radio>
+                                            <!--管理地址模式-->
+                                            <span v-show="addressMode == 'manager' ">张老三</span>
+                                        </div>
+                                        <div class="pull-right" style="width:45%;text-align:right;line-height: 26px;font-size: 13px;">
+                                            13812345678
+                                        </div>
+                                    </div>
+                                    <p class="address-details">浙江省&nbsp;&nbsp;杭州市&nbsp;&nbsp;滨江区&nbsp;&nbsp;长河街道聚才路88号远方科技中心15层</p>
+                                    <div style="height:10px"></div>
+                                    <!--管理地址模式-->
+                                    <div v-show="addressMode == 'manager' ">
+                                        <mu-divider></mu-divider>
+                                        <div class="flex-left address-edit-bar">
+                                            <div class="unit-1-2">
+                                                <mu-radio label="默认地址" name="default-address" native-value="1" class="default-address-radio"></mu-radio>
+                                            </div>
+                                            <div class="unit-1-4" @click="addressMode = 'edit'">
+                                                <span class="icon fa fa-pencil-square-o" style="font-size:14px;"></span>
+                                                编辑
+                                            </div>
+                                            <div class="unit-1-4">
+                                                <span class="icon fa fa-trash" style="font-size:14px;"></span>
+                                                删除
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--新增地址模式-->
+                            <div class="address-drawer-add-area" v-show="addressMode == 'add' ">
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        收货人
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-text-field hint-text="请输入" hint-text-class="form-item-hint"></mu-text-field>
+                                    </div>
+                                </div>
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        手机号码
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-text-field hint-text="请输入" hint-text-class="form-item-hint"></mu-text-field>
+                                    </div>
+                                </div>
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        所在地区
+                                    </div>
+                                    <div class="unit form-item">
+                                        <div class="explain-text" @click="addressMode = 'dateSelect'">请点击进行选择<span class="icon fa fa-angle-right" style="font-size:24px;"></span></div>
+                                    </div>
+                                </div>
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        详细地址
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-text-field hint-text="请详细到街道、社区、楼号、单元、门牌号" hint-text-class="form-item-hint" multi-line :rows="2" :rows-max="3" class="form-text-field"></mu-text-field>
+                                    </div>
+                                </div>
+
+                                <div class="form-row ui-border-tb bg-white" style="margin-top:15px;">
+                                    <mu-checkbox label="设为默认地址" class="set-default-checkbox" label-left></mu-checkbox>
+                                </div>
+                            </div>
+                            <!--编辑地址模式-->
+                            <div class="address-drawer-add-area" v-show="addressMode == 'edit' ">
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        收货人
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-text-field hint-text="请输入" v-model="addressForm.reciver" hint-text-class="form-item-hint"></mu-text-field>
+                                    </div>
+                                </div>
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        手机号码
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-text-field hint-text="请输入" v-model="addressForm.mobile" hint-text-class="form-item-hint"></mu-text-field>
+                                    </div>
+                                </div>
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        所在地区
+                                    </div>
+                                    <div class="unit form-item">
+                                        <div class="explain-text">内蒙古自治区 鄂尔多斯市 鄂托克前旗<span class="icon fa fa-angle-right" style="font-size:24px;"></span></div>
+                                    </div>
+                                </div>
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        详细地址
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-text-field hint-text="请详细到街道、社区、楼号、单元、门牌号" v-model="addressForm.address" hint-text-class="form-item-hint" multi-line :rows="3" :rowsMax="4" class="form-text-field"></mu-text-field>
+                                    </div>
+                                </div>
+
+                                <div class="form-row ui-border-tb bg-white" style="margin-top:15px;">
+                                    <mu-checkbox label="设为默认地址" class="set-default-checkbox" label-left></mu-checkbox>
+                                </div>
+                                <div class="form-row ui-border-tb bg-white" style="margin-top:15px;">
+                                    <span style="color:#e51c23">删除地址</span>
+                                </div>
+                            </div>
+                            <!--地区选择模式-->
+                            <div class="address-drawer-date-select" v-show="addressMode == 'dateSelect' ">
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        省级行政区
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-select-field :label-focus-class="['label-foucs']" label="">
+                                            <mu-menu-item value="北京" title="北京"></mu-menu-item>
+                                            <mu-menu-item value="天津" title="天津"></mu-menu-item>
+                                        </mu-select-field>
+                                    </div>
+                                </div>
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        城市
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-select-field :label-focus-class="['label-foucs']" label="">
+                                            <mu-menu-item value="市辖区" title="市辖区"></mu-menu-item>
+                                        </mu-select-field>
+                                    </div>
+                                </div>
+                                <div class="flex-left form-row ui-border-b bg-white">
+                                    <div class="unit-0 form-label">
+                                        区县
+                                    </div>
+                                    <div class="unit form-item">
+                                        <mu-select-field :label-focus-class="['label-foucs']" label="">
+                                            <mu-menu-item value="朝阳区" title="朝阳区"></mu-menu-item>
+                                            <mu-menu-item value="东城区" title="东城区"></mu-menu-item>
+                                        </mu-select-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mu-drawer>
+
+            <div style="padding-top:40px;padding-bottom:50px;">
+                <p class="top-notice-text">为确保您的订单能够准确送达，请再次确认本订单所有商品都送往如下地址！</p>
+                <div class="receive-address bg-white ui-border-tb p-lr15">
+                    <div class="flex-middle">
+                        <div class="unit-0" style="width:45px;text-align:center;height:45px;line-height:45px;">
+                            <span class="icon fa fa-truck" style="font-size:24px;"></span>
+                        </div>
+                        <div class="unit">
+                            <p class="no-m">收件人：张老三   13812345678</p>
+                            <p class="no-m" style="color:#616161;font-size:12px;">浙江省  杭州市  滨江区</p>
+                            <p class="no-m" style="color:#616161;font-size:12px;">长河街道聚才路88号远方科技中心15层</p>
+                            <div style="padding-top:8px;">
+                                <mu-raised-button label="改用其他地址" @click="open = true" class="little-btn" primary></mu-raised-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="block-title">订单商品</h2>
+                <div class="order-goods-list bg-white ui-border-tb p-lr15">
+                    <p class="order-goods-shop">
+                        <span class="fa fa-user-md" style="font-size:15px;"></span>
+                        <span>壹基因官方</span>
+                        <span class="fa fa-angle-right" style="font-size:20px;color:#444444;"></span>
+                    </p>
+                    <div class="default-goods-cell">
+                        <div class="unit goods-card flex-left">
+                            <img class="unit-0 goods-img" src="./image/1494047031.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-title ui-ellipsis-2">老年常见健康风险基因检测16项【标准版】</p>
+                                <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                <div class="prices">
+                                    <span class="vip-price">￥1899</span>
+                                    <span class="price">￥1899</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="default-goods-cell">
+                        <div class="unit goods-card flex-left">
+                            <img class="unit-0 goods-img" src="./image/1494047032.jpeg" alt="">
+                            <div class="unit info">
+                                <p class="goods-title ui-ellipsis-2">宝贝密码T+儿童天赋基因检测套餐51项【精装报告版】</p>
+                                <p class="goods-subject ui-ellipsi">受检者：张老三[18612345678]</p>
+                                <div class="prices">
+                                    <span class="vip-price">￥1899</span>
+                                    <span class="price">￥1899</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white right-control-list">
+                        <mu-list v-cloak>
+                            <mu-list-item title="店铺优惠" v-cloak>
+                                <span class="icon fa fa-chevron-right" slot="right"></span>
+                                <span class="right-text">往返包邮</span>
+                            </mu-list-item>
+                            <mu-divider></mu-divider>
+                            <mu-list-item title="配送方式" v-cloak>
+                                <span class="icon fa fa-chevron-right" slot="right"></span>
+                                <span class="right-text">顺丰</span>
+                            </mu-list-item>
+                            <mu-divider></mu-divider>
+                        </mu-list>
+                    </div>
+                    <div class="flex-left">
+                        <div class="unit-0" style="width:85px;text-align:left;padding-left:10px;">
+                            买家留言:
+                        </div>
+                        <div class="unit">
+                            <mu-text-field hint-text="如果您有特殊要求请说明" multi-line :rows="3" :rowsMax="6" class="inner-text-field"></mu-text-field>
+                        </div>
+                    </div>
+                    <mu-divider></mu-divider>
+                    <p class="goods-count">共&nbsp; 2 &nbsp;件商品&nbsp;&nbsp;小计：<span class="price">￥18969</span></p>
+                </div>
+
+                <h2 class="block-title">会员特权</h2>
+                <div class="order-vip-options bg-white ui-border-tb p-lr15">
+                    <div class="bg-white right-control-list">
+                        <mu-list v-cloak>
+                            <mu-list-item title="卡卷" v-cloak>
+                                <span class="icon fa fa-chevron-right" slot="right"></span>
+                                <span class="right-text">满500减800</span>
+                            </mu-list-item>
+                            <mu-divider></mu-divider>
+                            <mu-list-item title="积分兑换" v-cloak>
+                                <div class="custom-area">
+                                    使用 &nbsp;&nbsp;<input type="text" name="" value="">&nbsp;&nbsp;积分
+                                </div>
+                            </mu-list-item>
+                            <mu-divider></mu-divider>
+                        </mu-list>
+                    </div>
+                    <div class="ui-ellipsis-2 integration-explain">
+                        注：100积分兑换1元，当前可用 <span style="color:#8bc34a;padding:0 5px;">127567</span> 积分
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false,
+                addressMode: 'select', // 'manager'、'edit'、'add'、'dateSelect'
+                addressForm: {
+                    reciver: '张老三',
+                    mobile: '13812345678',
+                    address: '长河街道聚才路88号远方科技中心15层'
+                }
+            },
+            mounted: function() {
+                
+            },
+            methods: {
+                goBack: function() {
+                    history.back();
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                },
+                orderSubmit: function() {
+                    location.href = "order_list.html";
+                }
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=131">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+        .action-buttons .mu-raised-button {
+            border: 1px solid #2488ed;
+            color: #2488ed;
+        }
+.person-info-box {
+    padding: 10px 15px;
+}
+.person-info-box .username {
+    height: 22px;
+    line-height: 22px;
+    color: #ff4081;
+    font-size: 13px;
+}
+.person-info-box .mobile {
+    height: 24px;
+    line-height: 24px;
+    color: #101010;
+    font-size: 13px;
+}
+.person-info-box .editable {
+    height: 22px;
+    line-height: 22px;
+    color: #4095f7;
+    font-size: 12px;
+}
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="个人中心" class="navbar-second">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+                <mu-icon-button slot="right" @click="open = true"><i class="material-icons">&#xE7FD;</i></mu-icon-button>
+            </mu-appbar>
+
+            <mu-drawer :open="open" :docked="docked" :right="true" width="160" @close="toggle()">
+                <div class="side-drawer">
+                    <div class="side-drawer-inner flex-vertical">
+                        <div class="side-drawer-head unit-0">
+                            您要去哪里？
+                        </div>
+                        <div class="side-drawer-content unit">
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>健康商城</mu-sub-header>
+                                <mu-list-item title="商城首页" @click="linkTo('index.html')">
+                                    <span slot="left" class="icon fa fa-home"></span>
+                                </mu-list-item>
+                                <mu-list-item title="购物车" @click="linkTo('shop_cart.html')">
+                                    <span slot="left" class="icon fa fa-shopping-cart"></span>
+                                </mu-list-item>
+                                <mu-list-item title="我的订单" @click="linkTo('order_list.html')">
+                                    <span slot="left" class="icon fa fa-th-list"></span>
+                                </mu-list-item>
+                                <mu-list-item title="贵宾卡" @click="linkTo('gift_card.html')">
+                                    <span slot="left" class="icon fa fa-credit-card"></span>
+                                </mu-list-item>
+                                <mu-list-item title="样本绑定" @click="linkTo('bind_sample_step1.html')">
+                                    <span slot="left" class="icon fa fa-plus-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                            <mu-divider></mu-divider>
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>会员中心</mu-sub-header>
+                                <mu-list-item title="个人中心" @click="linkTo('person.html')">
+                                    <span slot="left" class="icon fa fa-male"></span>
+                                </mu-list-item>
+                                <mu-list-item title="查看报告" @click="linkTo('report_list.html')">
+                                    <span slot="left" class="icon fa fa-book"></span>
+                                </mu-list-item>
+                                <mu-list-item title="1对1咨询" @click="linkTo('one_by_one_consult.html')">
+                                    <span slot="left" class="icon fa fa-phone-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                        </div>
+                    </div>
+                </div>
+                    
+            </mu-drawer>
+
+            <div class="report-list-content" style="padding-top:40px;">
+                <div class="bg-white ui-border-tb person-info-box">
+                    <div class="flex-left">
+                        <div class="unit-0" style="width:70px;">
+                            <img class="goods-img" src="https://placeholdit.imgix.net/~text?txtsize=15&txt=placehold&w=100&h=100&txtpad=1" alt="" width="70" height="70">
+                        </div>
+                        <div class="unit" style="padding-left:10px;height:70px;">
+                            <p class="no-m username"><span class="icon fa fa-venus" style="font-size:16px;padding-right:6px;"></span>大璐璐</p>
+                            <p class="no-m mobile">手机号码：13812345678</p>
+                            <p class="no-m editable"><span class="icon fa fa-pencil" style="font-size:12px;padding-right:6px;"></span>编辑个人信息</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p15">
+                    <div class="flex-left units-gap action-buttons">
+                        <div class="unit">
+                            <mu-raised-button label="贵宾卡" class="radius-button little-button" @click="linkTo('gift_card.html')" full-width></mu-raised-button>
+                        </div>
+                        <div class="unit">
+                            <mu-raised-button label="优惠券" class="radius-button little-button" full-width></mu-raised-button>
+                        </div>
+                        <div class="unit">
+                            <mu-raised-button label="我的积分" class="radius-button little-button" full-width></mu-raised-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white ui-border-tb p15">
+                    <div class="flex-center units-gap action-grid">
+                        <div class="unit" @click="linkTo('index.html')">
+                            <p class="no-m text-center" style="color:#c9c9c9;"><span class="icon fa fa-home" style="font-size:34px;"></span></p>
+                            <p class="no-m text-center" style="color:#101010;font-size:12px;">商城首页</p>
+                        </div>
+                        <div class="unit" @click="linkTo('shop_cart.html')">
+                            <p class="no-m text-center" style="color:#c9c9c9;"><span class="icon fa fa-shopping-cart" style="font-size:34px;"></span></p>
+                            <p class="no-m text-center" style="color:#101010;font-size:12px;">购物车</p>
+                        </div>
+                        <div class="unit" @click="linkTo('order_list.html')">
+                            <p class="no-m text-center" style="color:#c9c9c9;"><span class="icon fa fa-list-alt" style="font-size:34px;"></span></p>
+                            <p class="no-m text-center" style="color:#101010;font-size:12px;">我的订单</p>
+                        </div>
+                        <div class="unit" @click="linkTo('bind_sample_step1.html')">
+                            <p class="no-m text-center" style="color:#c9c9c9;"><span class="icon fa fa-plus-square" style="font-size:34px;"></span></p>
+                            <p class="no-m text-center" style="color:#101010;font-size:12px;">样本绑定</p>
+                        </div>
+                    </div>
+                    <div class="flex-center units-gap action-grid" style="padding-top:15px;">
+                        <div class="unit" @click="linkTo('report_list.html')">
+                            <p class="no-m text-center" style="color:#c9c9c9;"><span class="icon fa fa-book" style="font-size:34px;"></span></p>
+                            <p class="no-m text-center" style="color:#101010;font-size:12px;">查看报告</p>
+                        </div>
+                        <div class="unit" @click="linkTo('health_record.html')">
+                            <p class="no-m text-center" style="color:#c9c9c9;"><span class="icon fa fa-file-text" style="font-size:34px;"></span></p>
+                            <p class="no-m text-center" style="color:#101010;font-size:12px;">健康档案</p>
+                        </div>
+                        <div class="unit" @click="linkTo('health_plan.html')">
+                            <p class="no-m text-center" style="color:#c9c9c9;"><span class="icon fa fa-calendar-plus-o" style="font-size:34px;"></span></p>
+                            <p class="no-m text-center" style="color:#101010;font-size:12px;">健康计划</p>
+                        </div>
+                        <div class="unit" @click="linkTo('one_by_one_consult.html')">
+                            <p class="no-m text-center" style="color:#c9c9c9;"><span class="icon fa fa-phone-square" style="font-size:34px;"></span></p>
+                            <p class="no-m text-center" style="color:#101010;font-size:12px;">1对1咨询</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false
+            },
+            mounted: function() {
+                
+            },
+            methods: {
+                linkTo: function(url) {
+                    setTimeout(function() {
+                        location.href = url;
+                    }, 500);
+                },
+                goBack: function() {
+                    history.back();
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                }
+            }
+        });
+    </script>
+</html>

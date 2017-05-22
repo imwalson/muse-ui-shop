@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=131">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+        .block-title {
+            font-weight:normal;text-align:center;font-size:14px;color:#616161;
+        }
+        
+        .mu-menu-destop {
+            padding: 0;
+        }
+        .mu-popover .mu-menu-item {
+            padding: 0 10px;
+            text-align: center;
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="商品详情" class="navbar-details">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+            </mu-appbar>
+            <footer class="details-footer flex-left">
+                <mu-raised-button label="分享" class="unit-0 share" full-width></mu-raised-button>
+                <mu-raised-button label="加入购物车" @click="openBottomSheet" class="unit add-cart" full-width></mu-raised-button>
+                <mu-raised-button label="下单购买" class="unit buy" full-width></mu-raised-button>
+            </footer>
+            <!--规格参数选择-->
+            <mu-bottom-sheet sheet-class="standard-select-sheet" :open="bottomSheet" @close="closeBottomSheet">
+                <mu-list @item-click="standardClicked">
+                    <mu-sub-header>第一步：请选择您要的规格</mu-sub-header>
+                    <mu-list-item title="标准版【￥1699】"></mu-list-item>
+                    <mu-list-item title="尊享版【￥1899】"></mu-list-item>
+                    <mu-list-item title="精装纸质报告版【￥2399】"></mu-list-item>
+                </mu-list>
+            </mu-bottom-sheet>
+
+            <!--受检者填写-->
+            <mu-bottom-sheet :open="bottomSheet2" @close="closeBottomSheet2">
+                <mu-sub-header>第二步：请选择被检测者</mu-sub-header>
+                <div class="add-subject-sheet" style="padding:0 15px 15px 15px;">
+                    <p>已有受检者请点击选择</p>
+                    <div class="subject-list">
+                        <mu-flat-button label="小名" class="subject-item"></mu-flat-button>
+                        <mu-flat-button label="小王" class="subject-item"></mu-flat-button>
+                        <mu-flat-button label="小花" class="subject-item active"></mu-flat-button>
+                    </div>
+                    <p>新增受检者</p>
+                    <div class="flex-left units-gap">
+                        <div class="unit-1-3">
+                            <mu-text-field hint-text="姓名" hint-text-class="add-subject-hint" error-text="这是必填项"></mu-text-field>
+                        </div>
+                        <div class="unit-2-3">
+                            <mu-text-field hint-text="手机号" hint-text-class="add-subject-hint"></mu-text-field>
+                        </div>
+                    </div>
+                    <div class="flex-left units-gap">
+                        <div class="unit-1-4">
+                            <mu-select-field :label-focus-class="['label-foucs']" label="性别">
+                                <mu-menu-item value="男" title="男"></mu-menu-item>
+                                <mu-menu-item value="女" title="女"></mu-menu-item>
+                            </mu-select-field>
+                        </div>
+                        <div class="unit-1-4">
+                            <mu-select-field :label-focus-class="['label-foucs']" label="关系">
+                                <mu-menu-item value="父子" title="父子"></mu-menu-item>
+                                <mu-menu-item value="兄弟" title="兄弟"></mu-menu-item>
+                            </mu-select-field>
+                        </div>
+                        <div class="unit-1-2">
+                            <mu-date-picker hint-text="出生日期" hint-text-class="add-subject-hint"></mu-date-picker>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <mu-raised-button label="保存并选中" @click="closeBottomSheet2" class="add-subject-btn"></mu-raised-button>
+                    </div>
+                </div>
+            </mu-bottom-sheet>
+
+            <div style="padding-top:40px;padding-bottom:48px;">
+                <div class="headimage">
+                    <img src="./image/1494047031.jpeg" alt="">
+                </div>
+                <div class="details-titles bg-white ui-border-b">
+                    <div class="title ui-ellipsis">宝贝密码T+儿童天赋基因检测套餐51项</div>
+                    <div class="goods-info">
+                        <span class="price">￥13886</span>
+                        <span class="tag">包邮</span>
+                        <span class="tag yellow">抵扣5%</span>
+                    </div>
+                </div>
+                <div class="details-control-list bg-white ui-border-tb">
+                    <mu-list v-cloak>
+                        <mu-list-item title="请选择规格类型" @click="openBottomSheet" v-cloak>
+                            <span class="icon fa fa-chevron-right" slot="right"></span>
+                            <span class="standard-result">精装纸质报告版</span>
+                        </mu-list-item>
+                        <mu-divider></mu-divider>
+                        <mu-list-item title="产品参数" v-cloak>
+                            <span class="icon fa fa-chevron-right" slot="right"></span>
+                        </mu-list-item>
+                    </mu-list>
+                </div>
+
+                <h2 class="block-title">商品详情</h2>
+                <div class="bg-white ui-border-tb">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-00.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-01.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-02.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-03.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-04.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-05.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-06.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-07.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-08.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-09.jpg">
+                    <img class="cross-img" src="http://landing.1gene.com.cn/web/img/man-3-10.jpg">
+                </div>
+
+                <h2 class="block-title">商品问答</h2>
+                <div class="faqs bg-white ui-border-tb">
+                    <div>
+                        <div class="faq-question flex-left ui-border-b">
+                            <div class="unit-0" style="width: 24px;">
+                                <span class="icon fa fa-question-circle"></span>
+                            </div>
+                            <div class="unit">请问给儿童测天赋的目的是什么？</div>
+                        </div>
+                        <div class="faq-answer flex-left ui-border-b">
+                            <div class="unit-0" style="width: 24px;">
+                                <span class="icon fa fa-comments" style="color:#259b24"></span>
+                            </div>
+                            <div class="unit">
+                                <p class="answer-content">浙江省杭州市滨江区长河街道聚才路88号远方科技中心15层浙江省杭州市滨江区长河街道聚才路88号远方科技中心15层</p>
+                                <div class="text-right" style="margin-top:10px;">
+                                    <span class="icon fa fa-thumbs-o-up"></span>
+                                    <span>赞一个（84）</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="faq-question flex-left ui-border-b">
+                            <div class="unit-0" style="width: 24px;">
+                                <span class="icon fa fa-question-circle"></span>
+                            </div>
+                            <div class="unit">请问给儿童测天赋的目的是什么？</div>
+                        </div>
+                        <div class="faq-answer flex-left ui-border-b">
+                            <div class="unit-0" style="width: 24px;">
+                                <span class="icon fa fa-comments" style="color:#259b24"></span>
+                            </div>
+                            <div class="unit">
+                                <p class="answer-content">浙江省杭州市滨江区长河街道聚才路88号远方科技中心15层浙江省杭州市滨江区长河街道聚才路88号远方科技中心15层</p>
+                                <div class="text-right" style="margin-top:10px;">
+                                    <span class="icon fa fa-thumbs-o-up"></span>
+                                    <span>赞一个（84）</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="faqs-more flex-left bg-white">
+                    <div class="unit text-center">
+                        <mu-flat-button label="查看全部">
+                            <span class="icon fa fa-chevron-circle-down"></span>
+                        </mu-flat-button>
+                    </div>
+                    <div class="unit text-center">
+                        <mu-flat-button label="我要提问">
+                            <span class="icon fa fa fa-plus-circle"></span>
+                        </mu-flat-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                bottomSheet: false,
+                bottomSheet2: false
+            },
+            mounted: function() {
+                
+            },
+            methods: {
+                goBack: function() {
+                    history.back();
+                },
+                standardClicked: function () {
+                    this.bottomSheet = false;
+                    this.bottomSheet2 = true;
+                },
+                closeBottomSheet: function () {
+                    this.bottomSheet = false;
+                },
+                openBottomSheet: function () {
+                    this.bottomSheet = true;
+                },
+                closeBottomSheet2: function () {
+                    this.bottomSheet2 = false;
+                    setTimeout(function() {
+                        location.href = 'shop_cart.html';
+                    }, 1000);
+                },
+                openBottomSheet2: function () {
+                    this.bottomSheet2 = true;
+                }
+            }
+        });
+    </script>
+</html>

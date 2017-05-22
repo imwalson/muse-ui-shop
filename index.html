@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <link rel="stylesheet" href="./css/photoSlider.min.css?v=2">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=131">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-drawer :open="open" :docked="docked" :right="true" width="160" @close="toggle()">
+                <div class="side-drawer">
+                    <div class="side-drawer-inner flex-vertical">
+                        <div class="side-drawer-head unit-0">
+                            您要去哪里？
+                        </div>
+                        <div class="side-drawer-content unit">
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>健康商城</mu-sub-header>
+                                <mu-list-item title="商城首页" @click="linkTo('index.html')">
+                                    <span slot="left" class="icon fa fa-home"></span>
+                                </mu-list-item>
+                                <mu-list-item title="购物车" @click="linkTo('shop_cart.html')">
+                                    <span slot="left" class="icon fa fa-shopping-cart"></span>
+                                </mu-list-item>
+                                <mu-list-item title="我的订单" @click="linkTo('order_list.html')">
+                                    <span slot="left" class="icon fa fa-th-list"></span>
+                                </mu-list-item>
+                                <mu-list-item title="贵宾卡" @click="linkTo('gift_card.html')">
+                                    <span slot="left" class="icon fa fa-credit-card"></span>
+                                </mu-list-item>
+                                <mu-list-item title="样本绑定" @click="linkTo('bind_sample_step1.html')">
+                                    <span slot="left" class="icon fa fa-plus-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                            <mu-divider></mu-divider>
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>会员中心</mu-sub-header>
+                                <mu-list-item title="个人中心" @click="linkTo('person.html')">
+                                    <span slot="left" class="icon fa fa-male"></span>
+                                </mu-list-item>
+                                <mu-list-item title="查看报告" @click="linkTo('report_list.html')">
+                                    <span slot="left" class="icon fa fa-book"></span>
+                                </mu-list-item>
+                                <mu-list-item title="1对1咨询" @click="linkTo('one_by_one_consult.html')">
+                                    <span slot="left" class="icon fa fa-phone-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                        </div>
+                    </div>
+                </div>
+                    
+            </mu-drawer>
+
+            <header class="navbar">
+                <div class="navbar-inner flex-left">
+                    <a class="unit-0 nav-link home active" href="#">首页</a>
+                    <a class="unit nav-link" href="category.html">基因检测</a>
+                    <a class="unit nav-link" href="category.html">健康服务</a>
+                    <a class="unit nav-link" href="category.html">周边产品</a>
+                    <a class="unit-0 nav-link my" href="javascript:;" @click="open = true"><i class="icon fa fa-user"></i></a> 
+                </div>
+            </header>
+
+            <div style="padding-top:40px;">
+                <div class="highlight-slide" id="highlight-slide">
+                    <ul>
+                        <li>
+                            <a href="details.html">
+                                <img src="./image/0cec6091dcb1bfc54727ebbf3d1288ba.jpg" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="details.html">
+                                <img src="./image/0b7a065900202fdce546355827f13471.jpg" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="details.html">
+                                <img src="./image/0b41eb13382562281696c6fd194b0b48.jpg" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-lr15">
+                    <div class="p-tb15">
+                        <div class="flex-left">
+                            <div class="unit">
+                                <input type="text" id="q" name="q" class="search-query" placeholder="商品搜索">
+                            </div>
+                            <div class="unit-0" style="width:75px;text-align:right;">
+                                <div class="switch-list-btn-group">
+                                    <button type="button" :class="listTypeClass('grid')" @click="listType = 'grid'">
+                                        <span class="icon fa fa-th-large"></span>
+                                    </button>
+                                    <button type="button" :class="listTypeClass('list')" @click="listType = 'list'">
+                                        <span class="icon fa fa-th-list"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="margin: 0;">推荐</h4>
+                    <!--商品列表（网格视图）-->
+                    <div style="padding-bottom:20px;" v-show="listType === 'grid'">
+                        <div class="flex-left shop-list-grid">
+                            <div class="unit">
+                                <mu-paper class="shop-list-item" :z-depth="1">
+                                    <div class="top-wrap">
+                                        <img src="./image/1494047032.jpeg" alt="">
+                                        <h2 class="title">基因检测超值体验 — 女性三项常见肿瘤基因检测</h2>
+                                    </div>
+                                    <div class="bottom-wrap">
+                                        <span class="price">￥13886</span>
+                                        <div class="tags">
+                                            <span class="tag">包邮</span>
+                                        </div>
+                                    </div>
+                                </mu-paper>
+                            </div>
+                            <div class="unit">
+                                <mu-paper class="shop-list-item" :z-depth="1">
+                                    <div class="top-wrap">
+                                        <img src="./image/1494047031.jpeg" alt="">
+                                        <h2 class="title">男性三项常见肿瘤基因检测</h2>
+                                    </div>
+                                    <div class="bottom-wrap">
+                                        <span class="price">￥13886</span>
+                                        <div class="tags">
+                                            <span class="tag yellow">抵扣5%</span>
+                                        </div>
+                                    </div>
+                                </mu-paper>
+                            </div>
+                        </div>
+                        <div class="flex-left shop-list-grid">
+                            <div class="unit">
+                                <mu-paper class="shop-list-item" :z-depth="1">
+                                    <div class="top-wrap">
+                                        <img src="./image/1494047032.jpeg" alt="">
+                                        <h2 class="title">基因检测超值体验 — 女性三项常见肿瘤基因检测</h2>
+                                    </div>
+                                    <div class="bottom-wrap">
+                                        <span class="price">￥13886</span>
+                                        <div class="tags">
+                                            <span class="tag">包邮</span>
+                                        </div>
+                                    </div>
+                                </mu-paper>
+                            </div>
+                            <div class="unit">
+                                <mu-paper class="shop-list-item" :z-depth="1">
+                                    <div class="top-wrap">
+                                        <img src="./image/1494047031.jpeg" alt="">
+                                        <h2 class="title">男性三项常见肿瘤基因检测</h2>
+                                    </div>
+                                    <div class="bottom-wrap">
+                                        <span class="price">￥13886</span>
+                                        <div class="tags">
+                                            <span class="tag yellow">抵扣5%</span>
+                                        </div>
+                                    </div>
+                                </mu-paper>
+                            </div>
+                        </div>
+                    </div>
+                    <!--商品列表（列表视图）-->
+                    <div style="padding-bottom:20px;" v-show="listType === 'list'">
+                        <div class="shop-list">
+                            <mu-paper class="shop-list-item" :z-depth="1">
+                                <div class="flex-left">
+                                    <div class="unit-0 left-wrap">
+                                        <img src="./image/1494047032.jpeg" alt="">
+                                    </div>
+                                    <div class="unit right-wrap">
+                                        <h1 class="row-1"><i class="fa fa-user-md"></i>壹基因官方</h1>
+                                        <p class="row-2">基因检测超值体验 — 女性三项常见肿瘤基因检测</p>
+                                        <div class="row-3">
+                                            <span class="price">￥13886</span>
+                                            <span class="tag">包邮</span>
+                                            <span class="tag yellow">抵扣5%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mu-paper> 
+                            <mu-paper class="shop-list-item" :z-depth="1">
+                                <div class="flex-left">
+                                    <div class="unit-0 left-wrap">
+                                        <img src="./image/1494047031.jpeg" alt="">
+                                    </div>
+                                    <div class="unit right-wrap">
+                                        <h1 class="row-1"><i class="fa fa-user-md"></i>壹基因官方</h1>
+                                        <p class="row-2">男性三项常见肿瘤基因检测</p>
+                                        <div class="row-3">
+                                            <span class="price">￥13886</span>
+                                            <span class="tag">包邮</span>
+                                            <span class="tag yellow">抵扣5%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mu-paper>
+                            <mu-paper class="shop-list-item" :z-depth="1">
+                                <div class="flex-left">
+                                    <div class="unit-0 left-wrap">
+                                        <img src="./image/1494047032.jpeg" alt="">
+                                    </div>
+                                    <div class="unit right-wrap">
+                                        <h1 class="row-1"><i class="fa fa-user-md"></i>壹基因官方</h1>
+                                        <p class="row-2">基因检测超值体验 — 女性三项常见肿瘤基因检测</p>
+                                        <div class="row-3">
+                                            <span class="price">￥13886</span>
+                                            <span class="tag">包邮</span>
+                                            <span class="tag yellow">抵扣5%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mu-paper> 
+                            <mu-paper class="shop-list-item" :z-depth="1">
+                                <div class="flex-left">
+                                    <div class="unit-0 left-wrap">
+                                        <img src="./image/1494047031.jpeg" alt="">
+                                    </div>
+                                    <div class="unit right-wrap">
+                                        <h1 class="row-1"><i class="fa fa-user-md"></i>壹基因官方</h1>
+                                        <p class="row-2">男性三项常见肿瘤基因检测</p>
+                                        <div class="row-3">
+                                            <span class="price">￥13886</span>
+                                            <span class="tag">包邮</span>
+                                            <span class="tag yellow">抵扣5%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mu-paper>     
+                        </div>
+                    </div> 
+
+
+                </div>
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script src="./js/photoSlider.min.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false,
+                listType: 'grid'
+            },
+            mounted: function() {
+                photoSlide({
+                    wrap: document.getElementById('highlight-slide'),
+                    loop: true,
+                    autoPlay: true,
+                    autoTime: 5000,
+                    pagination: true
+                });
+            },
+            methods: {
+                linkTo: function(url) {
+                    setTimeout(function() {
+                        location.href = url;
+                    }, 500);
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                },
+                listTypeClass: function(type) {
+                    return (this.listType === type) ? 'switch-list-btn active' : 'switch-list-btn';
+                }
+            }
+        });
+    </script>
+</html>

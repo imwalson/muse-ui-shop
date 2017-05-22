@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--ie渲染引擎-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <!--忽略电话号码和email识别-->
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <!--当网站添加到主屏幕快速启动方式，将网站添加到主屏幕快速启动方式-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--隐藏ios上的浏览器地址栏-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <!-- UC默认竖屏 ，UC强制全屏 -->
+        <meta name="full-screen" content="yes">
+        <meta name="browsermode" content="application">
+        <!-- QQ强制竖屏 QQ强制全屏 -->
+        <meta name="x5-orientation" content="portrait">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <title>壹基因商城</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
+        <link rel="stylesheet" href="./css/muse-ui.css">
+        <link rel="stylesheet" href="./css/theme-default.css">
+        <link rel="stylesheet" href="./css/flex.css">
+        <link rel="stylesheet" href="./css/font-awesome.css">
+        <!--<link rel="stylesheet" href="./css/material-icon.css">-->
+        <link rel="stylesheet" href="./css/styles.css?v=125">
+    </head>
+    <style>
+        body {
+            background-color: #F0F0F0;
+        }
+    </style>
+    <body>
+        <div id="vuecnt" v-cloak>
+            <mu-appbar title="样本绑定" class="navbar-second">
+                <mu-icon-button slot="left" @click="goBack"><i class="material-icons">&#xE5C4;</i></mu-icon-button>
+                <mu-icon-button slot="right" @click="open = true"><i class="material-icons">&#xE7FD;</i></mu-icon-button>
+            </mu-appbar>
+
+            <mu-drawer :open="open" :docked="docked" :right="true" width="160" @close="toggle()">
+                <div class="side-drawer">
+                    <div class="side-drawer-inner flex-vertical">
+                        <div class="side-drawer-head unit-0">
+                            您要去哪里？
+                        </div>
+                        <div class="side-drawer-content unit">
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>健康商城</mu-sub-header>
+                                <mu-list-item title="商城首页" @click="linkTo('index.html')">
+                                    <span slot="left" class="icon fa fa-home"></span>
+                                </mu-list-item>
+                                <mu-list-item title="购物车" @click="linkTo('shop_cart.html')">
+                                    <span slot="left" class="icon fa fa-shopping-cart"></span>
+                                </mu-list-item>
+                                <mu-list-item title="我的订单" @click="linkTo('order_list.html')">
+                                    <span slot="left" class="icon fa fa-th-list"></span>
+                                </mu-list-item>
+                                <mu-list-item title="贵宾卡" @click="linkTo('gift_card.html')">
+                                    <span slot="left" class="icon fa fa-credit-card"></span>
+                                </mu-list-item>
+                                <mu-list-item title="样本绑定" @click="linkTo('bind_sample_step1.html')">
+                                    <span slot="left" class="icon fa fa-plus-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                            <mu-divider></mu-divider>
+                            <mu-list @item-click="docked ? '' : toggle()">
+                                <mu-sub-header>会员中心</mu-sub-header>
+                                <mu-list-item title="个人中心" @click="linkTo('person.html')">
+                                    <span slot="left" class="icon fa fa-male"></span>
+                                </mu-list-item>
+                                <mu-list-item title="查看报告" @click="linkTo('report_list.html')">
+                                    <span slot="left" class="icon fa fa-book"></span>
+                                </mu-list-item>
+                                <mu-list-item title="1对1咨询" @click="linkTo('one_by_one_consult.html')">
+                                    <span slot="left" class="icon fa fa-phone-square"></span>
+                                </mu-list-item>
+                            </mu-list>
+                        </div>
+                    </div>
+                </div>
+                    
+            </mu-drawer>
+
+            <div style="padding-top:40px;">
+                <p class="top-notice-text">为确保样本顺利回到壹基因实验室，我们强烈建议您使用采样套件中提供的顺丰快递回寄单来寄送此样本，如果您选用了其它快递公司，请务必在下方填写</p>
+                <h2 class="block-title" style="text-align:left;padding-left:15px;">第4步：样本回寄</h2>
+                
+                <div class="bg-white ui-border-tb">
+                    <div class="ui-border-b">
+                        <div style="padding:10px 15px 0 15px;">
+                            <mu-radio label="我使用了壹基因提供的快递单" name="group" native-value="simple1" v-model="value" class="demo-radio"/>
+                        </div>
+                        <div style="padding:0 0 10px 55px;">
+                            <p class="no-m" style="color:#616161;font-size:12px;">顺丰快递单号：342423534532343</p>
+                            <p class="no-m" style="color:#e51c23;font-size:12px;padding-top:6px;"><span class="icon fa fa-pencil" style="font-size:12px;"></span>单号有误，我要修改</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="padding:10px 15px 0 15px;">
+                            <mu-radio label="我选用了其它快递公司" name="group" native-value="simple2" v-model="value" class="demo-radio"/>
+                        </div>
+                        <div class="giftcard-add-form" style="padding:0 15px 0 55px;">
+                            <mu-divider></mu-divider>
+
+                            <div class="add-form-row flex-left">
+                                <div class="form-label unit-0" style="width:80px;color:#616161;">快递公司：</div>
+                                <div class="unit">
+                                    <mu-select-field :label-focus-class="['label-foucs']" label="请选择">
+                                        <mu-menu-item value="中通" title="中通"></mu-menu-item>
+                                        <mu-menu-item value="申通" title="申通"></mu-menu-item>
+                                    </mu-select-field>
+                                </div>
+                            </div>
+                            <mu-divider></mu-divider>
+                            <div class="add-form-row flex-left">
+                                <div class="form-label unit-0" style="width:80px;color:#616161;">快递单号：</div>
+                                <div class="unit">
+                                    <mu-text-field hint-text="请输入单号" hint-text-class="form-item-hint"></mu-text-field>
+                                </div>
+                                <div class="unit-0" style="width:95px;text-aligh:right;">
+                                    <mu-raised-button label="扫一扫识别" class="inline-little-button" primary>
+                                        <span class="icon fa fa-barcode" style="font-size:14px;padding-top:2px;"></span>
+                                    </mu-raised-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-lr15">
+                    <div style="padding:20px 0">
+                        <mu-raised-button label="保存样本回寄信息" @click="nextStep()" class="radius-button" primary full-width></mu-raised-button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </body>
+    <script src="https://cdn.bootcss.com/vue/2.3.0/vue.js"></script>
+    <!--<script src="./js/vue.js"></script>-->
+    <script src="./js/muse-ui.js"></script>
+    <script>
+        var vueApp;
+
+        // 初始化vue对象
+        vueApp = new Vue({
+            el: '#vuecnt',
+            //delimiters: ['<{', '}>'], // 修改VUE的修饰符，防止和后端模板引擎冲突
+            data: {
+                open: false,
+                docked: false,
+                value: 'simple1'
+            },
+            mounted: function() {
+                
+            },
+            methods: {
+                linkTo: function(url) {
+                    setTimeout(function() {
+                        location.href = url;
+                    }, 500);
+                },
+                goBack: function() {
+                    history.back();
+                },
+                toggle: function () {
+                    this.open = !this.open;
+                },
+                nextStep: function() {
+                    //location.href = "bind_sample_step4.html";
+                }
+            }
+        });
+    </script>
+</html>
