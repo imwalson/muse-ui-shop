@@ -3,6 +3,9 @@ ul,li {
     margin: 0;
     padding: 0;
 }
+:after, :before {
+    box-sizing: content-box;
+}
 [v-cloak] {
   display: none;
 }
